@@ -20,9 +20,18 @@ plugins {
     id 'nebula.plugin-plugin' version '4.24.0'
 }
 
+apply plugin: 'maven-publish'
+
 // Any callers need to have this repository too.
 repositories {
     maven { url 'http://clojars.org/repo' }
+    maven {
+        url "s3://rupert.deep-impact.ch/release"
+        credentials(AwsCredentials) {
+            accessKey "$System.env.RUPERT_AWS_ACCESS_KEY"
+            secretKey "$System.env.RUPERT_AWS_SECRET_KEY"
+        }
+    }
 }
 
 description 'Small wrapper around clojuresque'
@@ -49,6 +58,26 @@ pluginBundle {
             displayName = 'Nebula Clojure'
             description = project.description
             tags = ['nebula', 'clojure']
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url "s3://rupert.deep-impact.ch/release"
+            credentials(AwsCredentials) {
+                accessKey "$System.env.RUPERT_AWS_ACCESS_KEY"
+                secretKey "$System.env.RUPERT_AWS_SECRET_KEY"
+            }
         }
     }
 }
