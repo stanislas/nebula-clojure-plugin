@@ -18,18 +18,20 @@
 
 (defn namespace-of-file
   [file]
-  (let [of-interest '#{ns clojure.core/ns in-ns clojure.core/in-ns}
-        eof         (Object.)
-        input       (LineNumberingPushbackReader. (io/reader file))
-        in-seq      (take-while #(not (identical? % eof))
-                                (repeatedly #(read input false eof)))
-        candidate   (first
-                      (drop-while
-                        #(or (not (instance? clojure.lang.ISeq %))
-                             (not (contains? of-interest (first %))))
-                        in-seq))]
-    (when candidate
-      (second candidate))))
+  (let [file (io/file file)]
+    (if (.endsWith (.getName file) ".clj")
+      (let [of-interest '#{ns clojure.core/ns in-ns clojure.core/in-ns}
+            eof         (Object.)
+            input       (LineNumberingPushbackReader. (io/reader file))
+            in-seq      (take-while #(not (identical? % eof))
+                                    (repeatedly #(read input false eof)))
+            candidate   (first
+                          (drop-while
+                            #(or (not (instance? clojure.lang.ISeq %))
+                                 (not (contains? of-interest (first %))))
+                            in-seq))]
+        (when candidate
+          (second candidate))))))
 
 (defn namespaces
   [files]
