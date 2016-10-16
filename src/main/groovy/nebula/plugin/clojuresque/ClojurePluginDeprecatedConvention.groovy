@@ -25,14 +25,14 @@ class ClojurePluginDeprecatedConvention {
         this.project = project
     }
 
-    public void setAotCompile(boolean f) {
-        Util.deprecationWarning(LOGGER, "aotCompile", "clojure.aotCompile")
-        project.clojure.aotCompile = f
+    public void setCompileMode(String f) {
+        Util.deprecationWarning(LOGGER, "compileMode", "clojure.compileMode")
+        project.clojure.compileMode = f
     }
 
-    public boolean getAotCompile() {
-        Util.deprecationWarning(LOGGER, "aotCompile", "clojure.aotCompile")
-        return project.clojure.aotCompile
+    public boolean getCompileMode() {
+        Util.deprecationWarning(LOGGER, "compileMode", "clojure.compileMode")
+        return project.clojure.compileMode
     }
 
     public void setWarnOnReflection(boolean f) {

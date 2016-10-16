@@ -7,8 +7,9 @@
   (let [mode (condp = compile-mode
                "compile" clojure.core/compile
                "require" clojure.core/require
+               "noop" clojure.core/identity
                (throw
-                 (Exception. "You must choose a mode: compile or require.")))
+                 (Exception. (str "You must choose a mode: compile, require or noop; got " compile-mode))))
         namespaces (namespaces source-files)]
     (binding [*warn-on-reflection* warn-on-reflection
               *compile-path*       (System/getProperty "clojure.compile.path")]

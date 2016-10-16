@@ -37,7 +37,7 @@ class ClojureCompile extends ClojureSourceTask {
 
     @Input
     @Delayed
-    def aotCompile = false
+    def compileMode = "require"
 
     @Input
     @Delayed
@@ -82,7 +82,7 @@ class ClojureCompile extends ClojureSourceTask {
         def toCompile = findDependentFiles(outOfDateInputs, dependencyGraph)
 
         def options = [
-            compileMode:      (getAotCompile()) ? "compile" : "require",
+            compileMode:      getCompileMode(),
             warnOnReflection: (getWarnOnReflection()),
             sourceFiles:      toCompile.collect { it.path }
         ]
@@ -107,7 +107,7 @@ class ClojureCompile extends ClojureSourceTask {
             ])
         }
 
-        if (!getAotCompile()) {
+        if ("require" != getCompileMode()) {
             project.copy {
                 dirMode  = this.dirMode
                 fileMode = this.fileMode

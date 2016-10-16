@@ -19,7 +19,7 @@ import org.gradle.api.internal.file.collections.DefaultDirectoryFileTreeFactory
 
 class ClojureSourceDirectorySet extends DefaultSourceDirectorySet {
     @Delayed
-    def aotCompile = false
+    def compileMode = "require"
 
     @Delayed
     def warnOnReflection = false

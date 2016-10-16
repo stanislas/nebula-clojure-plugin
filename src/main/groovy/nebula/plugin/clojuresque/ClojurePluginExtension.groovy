@@ -14,5 +14,5 @@ package nebula.plugin.clojuresque
 
 class ClojurePluginExtension {
     def boolean warnOnReflection = false
-    def boolean aotCompile       = false
+    def String  compileMode      = "require"
 }
